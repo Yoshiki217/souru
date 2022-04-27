@@ -2,10 +2,9 @@ CREATE USER 'admin03' IDENTIFIED BY 'Admin!_03';
 GRANT ALL ON *.* TO admin03;
 GRANT SELECT, INSERT ON *.* TO admin03;
 
-use check_anpi;
+create database check_anpi;
 
-drop table anpi;
-drop table user;
+use check_anpi;
 
 create table employee  (
 id char(8) unique not null primary key,
