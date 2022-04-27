@@ -1,0 +1,21 @@
+insert into employee values(16010228,'小林晃年',01,01);
+insert into employee values(15010226,'石原梨花',01,02);
+insert into employee values(13020305,'平塚俊雄',02,01);
+insert into employee values(17021112,'関口隆',02,02);
+insert into employee values(20030702,'古橋紗奈',03,01);
+insert into employee values(21031201,'遠藤浩二',03,02);
+insert into employee values(18030704,'戸塚和美',03,01);
+insert into employee values(19011118,'日野紗奈',01,02);
+insert into employee values(16020412,'藤森加奈',02,02);
+insert into employee values(15030815,'近藤武',03,02);
+insert into belongs values(01,'営業');
+insert into belongs values(02,'総務');
+insert into belongs values(03,'人事');
+insert into divisions values(01,01,'営業一課');
+insert into divisions values(01,02,'営業二課');
+insert into divisions values(02,01,'経理課');
+insert into divisions values(02,02,'厚生課');
+insert into divisions values(03,01,'人事課');
+insert into divisions values(03,02,'教育課');
+
+commit;
