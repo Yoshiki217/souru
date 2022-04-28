@@ -1,0 +1,113 @@
+/* フォント */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+
+/* fontawesome */
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+
+/* body */
+body{
+    background-color: #e9e9e9;
+    font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+    margin: 0%;
+    color:#5e5e5e;
+}
+h1{
+    text-align: center;
+}
+/*#kensaku{
+    float: right;
+    padding-top: 1em;
+}*/
+
+.split{
+    clear:  both;                 
+}
+
+.split-item{
+    display: table-cell;
+    padding: 80px;
+}
+.split-left{
+    background: #84aa77;
+    width: 5%;
+    list-style: none;
+}
+.split-left__inner{
+    height: 100%;
+    position: fixed;
+    left: 0;
+    padding:15px;
+ 
+}
+.busho{
+    list-style: none;
+
+}
+.sentaku{
+    padding:5px;
+    
+}
+
+a{
+    color: #e9e9e9;
+
+}
+.split-center{
+    color: #5e5e5e;
+    width: 70%;
+    word-wrap: break-word;
+    padding:2px;
+    border: 0;
+   
+    
+}
+.split-center_inner{
+    height: 0;
+    
+}
+
+.card__textbox{
+    font-size: 17px;
+    padding:20px; 
+    background-color:#ffffff;
+    margin:4px;
+}
+
+
+.split-right{
+    background-color: #48633c;
+    color: #fff;
+    height: 100%;
+    width: 15%;
+}
+.split-right__inner{
+    height: 100%;
+    
+}
+.button-panel{
+    white-space: nowrap;
+    position: fixed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

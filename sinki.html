@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
- 
  <meta charset="UTF-8">
  <title>create</title>
  <link href="./asset/css/logsinki.css" rel="stylesheet">
- 
 </head>
 <body>
 
 <div class="form-wrapper">
   <h1>新規作成</h1>
-  <form action="#" method="post">
-   
+  <form action="joho.php" method="post">
     <div class="form-item">
       <label for="id"></label>
-      <input type="text" name="id" id="id" required="required" placeholder="ID"></input>
+      <input type="text" name="id" required="required" placeholder="ID"></input>
     </div>
- 
     <div class="form-item">
-     
       <label for="name"></label>
-      <input type="text" name="name" id="name" required="required" placeholder="Name"></input>
+      <input type="text" name="name" required="required" placeholder="Name"></input>
     </div>
- 
     <div class="form-item">
       <label for="password"></label>
-      <input type="password" name="password" id="password" required="required" placeholder="Password"></input>
+      <input type="password" name="password" required="required" placeholder="Password"></input>
     </div>
- 
     <div class="form-item">
     <div class="cp_ipselect">
-     
       <label for="place"></label>
       <select class="cp_sl06" required>
         <option value="" hidden disabled selected></option>
@@ -39,44 +31,30 @@
         <option value="1">営業一課</option>
         <option value="2">営業二課</option>
       </optgroup>
-       
       <optgroup label="総務">
         <option value="3">経理課</option>
         <option value="4">厚生課</option>
       </optgroup>
-       
       <optgroup label="人事">
         <option value="5">人事課</option>
         <option value="6">教育課</option>
       </optgroup>
-       
       </select> 
-     
       <span class="cp_sl06_highlight"></span>
       <span class="cp_sl06_selectbar"></span>
       <label class="cp_sl06_selectlabel">Belong</label>
-     
     </div>
   </div>
- 
     <div class="button-panel">
-      <input type="submit" class="button" id="create" value="create"></input>
+      <input type="submit" class="button" value="create"></input>
     </div>
  
   </form>
-
   <div class="form-footer">
-    <!-- 遷移先がlogin処理完成後に変更します -->
     <p><a href="login.html">ログインする</a></p>
     <!--<p><a href="#">パスワードをお忘れですか？</a></p>-->
   </div>
-
 </div>
-
- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
- <script src="./asset/js/createUser.js"></script>
-
-
 </body>
 
 </html>
