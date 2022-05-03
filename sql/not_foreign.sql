@@ -1,3 +1,6 @@
+drop database check_anpi;
+drop user admin03;
+
 CREATE USER 'admin03' IDENTIFIED BY 'Admin!_03';
 GRANT ALL ON *.* TO admin03;
 GRANT SELECT, INSERT ON *.* TO admin03;
