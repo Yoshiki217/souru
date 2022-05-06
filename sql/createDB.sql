@@ -18,8 +18,8 @@ alter table employee add index employee_index1(d_id);
 
 create table user  (
 id char(8) unique not null primary key,
-password varchar(10) not null,
--- foreign key(id) references employee(id)
+password varchar(100) not null,
+foreign key(id) references employee(id)
 );
 
 create table belongs (
