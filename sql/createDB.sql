@@ -1,8 +1,8 @@
 CREATE USER 'admin03' IDENTIFIED BY 'Admin!_03';
-GRANT ALL ON *.* TO admin03;
-GRANT SELECT, INSERT ON *.* TO admin03;
-
 create database check_anpi;
+
+GRANT ALL ON check_anpi.* TO admin03;
+GRANT SELECT, INSERT ON *.* TO admin03;
 
 use check_anpi;
 
