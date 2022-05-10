@@ -27,10 +27,9 @@ if(isset($_POST['create'])) {
   $password = $_POST['password'];
   $password = password_hash($password, PASSWORD_DEFAULT);
 
+
   // POSTされた情報をDBに格納する
   $sql = "INSERT INTO user(id,password) VALUES('$id','$password')";
-
-
 
 
   //SQLを実行
