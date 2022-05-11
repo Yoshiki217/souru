@@ -26,8 +26,9 @@ if(isset($_POST['LOGIN'])) {
   $id = $_POST['id'];
   $password = $_POST['password'];
 
+
   // クエリの実行
-  $query = "SELECT * FROM user WHERE id='$id'";
+  $query = "SELECT * FROM employee WHERE id='$id'";
   $result = $instance->query($query);
   if (!$result) {
     print('クエリーが失敗しました。' . $instance->error);
@@ -47,7 +48,7 @@ if(isset($_POST['LOGIN'])) {
   // ハッシュ化されたパスワードがマッチするかどうかを確認
   if (password_verify($password, $db_hashed_pwd)) {
     $_SESSION['id'] = $id;
-    header("Location: home.php");
+    header("Location:aa.html");
     exit;
   } else { ?>
     <div class="alert alert-danger" role="alert">パスワードが一致しません。</div>
@@ -94,8 +95,8 @@ if(isset($_POST['LOGIN'])) {
       <input type="password" name="password" required="required" placeholder="Password"></input>
     </div>
     <div class="button-panel">
-      <!--<input type="submit" class="button" value="LOGIN"></input>-->
-      <button type='subnit' class="button">LOGIN</button>
+     <input type="submit" class="button" value="LOGIN" name="LOGIN"></input>
+     <!--  <button type='subnit' class="button">LOGIN</button>-->
     </div>
   </form>
   <div class="form-footer">
