@@ -1,8 +1,11 @@
 <?php
+set_time_limit(120);
 define( "DB_HOST", "localhost" );
 define( "DB_USER", "admin03" );
 define( "DB_PASS", "Admin!_03" );
 define( "DB_NAME", "check_anpi" );  
+
+
 
 
 //データベースに接続
@@ -21,17 +24,20 @@ if (!$instance->select_db("check_anpi")) {
 
 $instance->begin_transaction();
 
-if(isset($_POST['create'])) {
 
+if(isset($_POST['create'])) {
   $id = $_POST['id'];
   $password = $_POST['password'];
   $password = password_hash($password, PASSWORD_DEFAULT);
 
-
+if($password == !NULL){
+  echo "このパスワードは既に登録されてるっぴ";
+  header("Location:index.php");
+}else{
   // POSTされた情報をDBに格納する
-  $sql = "INSERT INTO user(id,password) VALUES('$id','$password')";
+  $sql = "UPDATE employee SET password = '$password' WHERE id = '$id'";
 
-
+}
   //SQLを実行
   if (!$res = $instance->query($sql)) {
     echo $sql;
@@ -39,7 +45,6 @@ if(isset($_POST['create'])) {
     //データベースから切断
     $instance->close();
     exit;
-
   }
 
 $instance->commit();
