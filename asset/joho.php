@@ -12,23 +12,42 @@ $result = [
   "result" => []
   ];
 
+
 $instance = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
 
 if( ! $instance -> connect_error ) {
   $instance -> set_charset (DB_CHARSET);
 }
 
-$sql = "SELECT * FROM employee";
 
-if($kekka = $instance -> query($sql)){
-  $result["status"] = true;
-  while( $row = $kekka -> fetch_array( MYSQLI_ASSOC ) ) {
-    $result[ "result" ][]= $row;
+  $sql = "SELECT * FROM anpi";
+  if($kekka = $instance -> query($sql)){
+    $result["status"] = true;
+    while( $row = $kekka -> fetch_array( MYSQLI_ASSOC ) ) {
+      $result[ "result" ][]= $row;
+    }
+    $kekka -> close();
   }
-  $kekka -> close();
-}
 
-$instance -> close();
+$instance->commit();
+
+
+
+
+
+session_start();
+$errmessage = "";
+$joho["text"] = "";
+
+if(isset($_SESSION["joho"])){
+  $old = $_SESSION["joho"];
+  }
+  if(isset($_SESSION["errmessage"])){
+  $errmessage = $_SESSION["errmessage"];
+  }
+  $_SESSION = [];
+
+
 
 
 ?>
@@ -45,105 +64,106 @@ $instance -> close();
 
 <body>
 
-<div class="ue">
+<div class="header">
 
-  <h1>安否情報</h1>
+          <div  class="nakami"><h1>安否情報</h1></div>
 
-  <div class="oyakudachi"><a href="https://www.fdma.go.jp/relocation/bousai_manual/index.html">お役立ち情報</a></div>
-
-
-  <div id="kensaku">
-    <form action="anpijoho.html" method="get">
-    <input type="search" name="search" placeholder="キーワードを入力">
-    <input type="submit" name="submit" value="検索">
-    </form>
-  </div>
-
- 
-                        <div class="tab">
+                        <div class="nakami">
                             <nav>
                               <ul class="busho">
-                                <li class="sentaku">
-                                  <a href="#">ALL</a>
+                                <li>
+                                <form action="joho.php" method="post">
+                                    <input type="submit" name="ALL" value="ALL" />
+                                </form>
                                 </li>
-                                <li class="sentaku">
-                                  <a href="#">営業</a>
+                                <li>
+                                <form action="joho.php" method="post">
+                                    <input type="submit" name="AGYO" value="営業" />
+                                </form>
                                 </li>
-                                <li class="sentaku">
-                                  <a href="#">経理</a> 
+                                <li>
+                                <form action="joho.php" method="post">
+                                    <input type="submit" name="KRI" value="経理" />
+                                </form>
                                 </li>
-                                <li class="sentaku">
-                                  <a href="#">人事</a> 
+                                <li>
+                                <form action="joho.php" method="post">
+                                    <input type="submit" name="JINJI" value="人事" />
+                                </form>
                                 </li>
                         
                               </ul>
                             </nav>
                         </div>
-                    </div>
-                </div>
+              
+            <div class="nakami"><a class="link" href="https://www.fdma.go.jp/relocation/bousai_manual/index.html">お役立ち情報</a></div>
+      <div class="nakami">
+        <form action="anpijoho.html" method="get">
+        <input type="search" name="search" placeholder="キーワードを入力">
+        <input type="submit" name="submit" value="検索">
+        </form>
+      </div>
+
+ 
+                        
 
 </div>
-        <div class="split-item split-center">
+        <div id="split-center">
 
-              <?php foreach ($result["result"] as $employee): ?>
+              <?php foreach ($result["result"] as $anpi): ?>
             
-            <div class="split-center__inner">
+            <div class="inner">
               <div class="card card-skin">
-                    <div class="card__imgframe"></div>
                         <div class="card__textbox">
-                          <div class="card__titletext">
-                            タイトルがはいります。タイトルがはいります。
-                          </div>
+                          <!-- <div class="card__titletext">
+                            
+                          </div> -->
                           <div class="card__overviewtext">
                           <tr class="tracking-wider border-b border-gray-200 hover:bg-gray-100 ">
-                            <td class="h-10 px-6 py-5"><?= $employee["EMP_NO"] ?></td>
-                            <td class="h-10 px-6 py-5"><?= $employee["ENAME"] ?></td>
-                            <td class="h-10 px-6 py-5"><?= $employee["BIRTHDAY"] ?></td>
-                            <td class="h-10 text-center px-6 py-5"></td>
+                            <td><?= $anpi["id"] ?></td>
+                            <td><?= $anpi["status"] ?></td>
+                            <td><?= $anpi["text"] ?></td>
                           </tr>
                           </div>
                         </div>
-                      </div>
-              </div>
-  
-
-              <?php endforeach ?>
-                    
+                </div>
+             </div>
+                <?php endforeach ?>
+              
         </div>
-        <div class="form-wrapper">
+
+
+      <div id="split-right"> 
+      <div class="form-wrapper">     
           <h1>情報登録</h1>
-          <form action="#" method="post">
+          <p class="text-red-600"><?= $errmessage ?></p>
+          <form action="joho2.php" method="post">
+          <div class="form-item">
+          <label for="status">状況</label>
+                <select name="status" id="status">
+                  <option 
+                    value="安全"
+                  >安全</option>
+                  <option 
+                    value="怪我しました"
+                  >怪我しました</option>
+                <option 
+                    value="助けてください"
+                  >助けてください</option>
+                </select>
+              </div>
             <div class="form-item">
-              <label for="ids"></label>
-              <input type="text" name="id" required="required" placeholder="ID"></input>
-            </div>
-            <div class="form-item">
-              <label for="password"></label>
-              <input type="password" name="password" required="required" placeholder="Password"></input>
+            <label for="description">コメント</label>
+            <textarea name="text" id="text"value="<?= $joho["text"] ?>"></textarea>
             </div>
             <div class="button-panel">
-              <input type="submit" class="button" value="LOGIN"></input>
+              <input type="submit" class="button" value="登録"></input>
             </div>
           </form>
-          <div class="form-footer">
-            <p><a href="sinki.html">アカウントを作る</a></p>
-            <!--<p><a href="#">パスワードをお忘れですか？</a></p>-->
-          </div>
-        </div> 
-
-
-     
-   
-
-        <div class="split-item split-right">
-          <div class="split-right__inner">
-            <div class="button-panel">
-              <a href="https://www.jma.go.jp/jma/index.html">気象庁</a>
+      </div>
+      <div class="button-panel">
+              <a class ="link" id="kishou" href="https://www.jma.go.jp/jma/index.html">気象庁</a>
             </div>
-          </div>
-        </div>
-</div>
-
 
 
 </body>
