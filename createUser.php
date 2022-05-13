@@ -30,14 +30,16 @@ if(isset($_POST['create'])) {
   $password = $_POST['password'];
   $password = password_hash($password, PASSWORD_DEFAULT);
 
-if($password == !NULL){
-  echo "このパスワードは既に登録されてるっぴ";
-  header("Location:index.php");
-}else{
+
+
+
+
   // POSTされた情報をDBに格納する
   $sql = "UPDATE employee SET password = '$password' WHERE id = '$id'";
 
-}
+  
+
+
   //SQLを実行
   if (!$res = $instance->query($sql)) {
     echo $sql;
