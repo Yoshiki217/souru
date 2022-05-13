@@ -33,7 +33,7 @@ foreign key(d_id) references divisions(d_id)
 create table anpi (
 id char(8) not null,
 name varchar(20),
-time time not null,
+datetime datetime not null,
 status char(10) not null,
 text varchar(50),
 foreign key(id) references employee(id)
