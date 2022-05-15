@@ -38,7 +38,7 @@ $sql = "SELECT * FROM employee WHERE id='$id'";//
     $name = $row['name'];
   }
   //パスワードがすでに格納されているかのチェック
-  $sql1 = "SELECT count(*) FROM employee where id='$id' AND password is null";//
+  $sql1 = "SELECT count(*) FROM employee where id='$id' AND password is null";
   if (!$result = $instance->query($sql1)) {
     print('クエリーが失敗しました。' . $instance->error);
     $instance->rollback();
@@ -46,7 +46,7 @@ $sql = "SELECT * FROM employee WHERE id='$id'";//
     exit();
   }
   //NULLの時
-  if($sql1 == 1){
+  if($sql1){
     // パスワード挿入
     $sql2 = "UPDATE employee SET password = '$password' WHERE id = '$id'";
     if (!$result = $instance->query($sql2)) {
