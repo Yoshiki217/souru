@@ -33,21 +33,21 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
       }
     }
 
-
+    $id = $_SESSION["id"];
+    $name = $_SESSION["name"];
 
   if( ! $instance -> connect_error ) {
     echo "assasaaa";
 
     $instance -> set_charset (DB_CHARSET);
 
-    $sql = "INSERT INTO anpi( id , datetime, status , text )VALUES ( ?,now(),?,? )";
+    $sql = "UPDATE anpi SET name = $name, datetime = now() ,status = ? text = ?  WHERE id = '$id'";
 
         if( $stmt = $instance -> prepare( $sql )){
             echo("wa");
 
-            $test = 16010228;
-            
-            $stmt -> bind_param( "sss", $test, $postdata["status"], $postdata["text"]);
+           
+            $stmt -> bind_param( "ss",$postdata["status"], $postdata["text"]);
             $stmt -> execute();
 
             if($stmt -> affected_rows==1){
