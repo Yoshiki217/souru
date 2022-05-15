@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 define( "DB_HOST", "localhost" );
 define( "DB_USER", "admin03" );
 define( "DB_PASS", "Admin!_03" );
@@ -11,13 +8,6 @@ define( "DB_NAME", "check_anpi" );
 //データベースに接続
 $instance = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
  
-//ログイン状態の場合ログイン後のページにリダイレクト
-if (isset($_SESSION["login"])) {
-  session_regenerate_id(TRUE);
-  header("Location: joho.php");
-  exit();
-}
-
 if($instance->connect_error){
   echo "Failed to connect to MySQL: ";
   exit;
@@ -32,43 +22,59 @@ if (!$instance->select_db("check_anpi")) {
 $instance->begin_transaction();
 
 // ログインボタンがクリックされたときに下記を実行
-if(isset($_POST['LOGIN'])) {
+if(isset($_POST['CHANGE'])) {
   $id = $_POST['id'];
-  $password = $_POST['password'];
+  $Newpassword = $_POST['Newpassword'];
+  $Newpassword = password_hash($Newpassword, PASSWORD_DEFAULT);
+  echo "aaaa";
 
-  // クエリの実行
-  $query = "SELECT * FROM employee WHERE id='$id'";
-  $result = $instance->query($query);
-  if (!$result) {
-    print('クエリーが失敗しました。' . $instance->error);
+  $sql = "UPDATE employee SET password = '$Newpassword' WHERE id = '$id'";
+
+  //SQLを実行
+  if (!$res = $instance->query($sql)) {
+    echo $sql;
+    $instance->rollback();
+    //データベースから切断
     $instance->close();
-    exit();
-  }
-
-  // パスワード(暗号化済み）とユーザーIDの取り出し
-  while ($row = $result->fetch_assoc()) {
-    $db_hashed_pwd = $row['password'];
-    $id = $row['id'];
-    $name = $row['name'];
-  }
-
-  // ハッシュ化されたパスワードがマッチするかどうかを確認
-  if (password_verify($password, $db_hashed_pwd)) {
-    //　一致したとき 
-    $_SESSION['id'] = $id;
-    $_SESSION['name'] = $name;
-    $_SESSION["login"] = $_POST['id']; //セッションにログイン情報を登録
-    header("Location:joho.php");
     exit;
-  } else { ?>
-    <div class="alert alert-danger" role="alert">パスワードが一致しません。</div>
-  <?php }
+  }
+  header("Location:index.php");
+
+$instance->commit();
+/* 接続を閉じます */
+$instance->close();
+}
+
+
+
+//   // クエリの実行
+//   $query = "SELECT * FROM employee WHERE id='$id'";
+//   $result = $instance->query($query);
+//   if (!$result) {
+//     print('クエリーが失敗しました。' . $instance->error);
+//     $instance->close();
+//     exit();
+//   }
+
+//   // パスワード(暗号化済み）とユーザーIDの取り出し
+//   while ($row = $result->fetch_assoc()) {
+//     $db_hashed_pwd = $row['password'];
+//     $id = $row['id'];
+//   }
 
   // データベースの切断
-  $result->close();
 
-}
+
+  // ハッシュ化されたパスワードがマッチするかどうかを確認
+//   if (password_verify($password, $db_hashed_pwd)) {
+//     $_SESSION['id'] = $id;
+//     header("Location:joho.php");
+//     exit;
+//   } else { 
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -98,24 +104,23 @@ if(isset($_POST['LOGIN'])) {
 
 
 <div class="form-wrapper">
-  <h1>安否確認</h1>
+  <h1>パスワード再設定</h1>
   <form action="#" method="post">
     <div class="form-item">
       <label for="ids"></label>
       <input type="text" name="id" required="required" placeholder="ID"></input>
     </div>
     <div class="form-item">
-      <label for="password"></label>
-      <input type="password" name="password" required="required" placeholder="Password"></input>
+      <label for="Newpassword"></label>
+      <input type="password" name="Newpassword" required="required" placeholder="NewPasswordCreate"></input>
     </div>
     <div class="button-panel">
-     <input type="submit" class="button" value="LOGIN" name="LOGIN"></input>
+     <input type="submit" class="button" value="CHANGE" name="CHANGE"></input>
      <!--  <button type='subnit' class="button">LOGIN</button>-->
     </div>
   </form>
   <div class="form-footer">
     <p><a href="createUser.php">アカウントを作る</a></p>
-    <p><a href="newpass.php">パスワードをお忘れですか？</a></p>
   </div>
 </div>
 
