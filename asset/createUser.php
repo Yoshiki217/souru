@@ -56,7 +56,7 @@ $sql = "SELECT * FROM employee WHERE id='$id'";//
       exit();
     }
     //anpiテーブルにIDとname挿入
-    $sql3 = "INSERT INTO anpi(id,name)VALUE($id,'$name')";//?
+    $sql3 = "INSERT INTO anpi(id,name,status)VALUE($id,'$name','無回答')";
     if (!$result = $instance->query($sql3)) {
       print('クエリーが失敗しました。' . $instance->error);
       $instance->rollback();
