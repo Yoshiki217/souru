@@ -14,7 +14,7 @@ $instance = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
 //ログイン状態の場合ログイン後のページにリダイレクト
 if (isset($_SESSION["login"])) {
   session_regenerate_id(TRUE);
-  header("Location: aa.php");
+  header("Location: joho.php");
   exit();
 }
 
@@ -59,7 +59,7 @@ if(isset($_POST['LOGIN'])) {
     $_SESSION['id'] = $id;
     $_SESSION['name'] = $name;
     $_SESSION["login"] = $_POST['id']; //セッションにログイン情報を登録
-    header("Location:login.php");
+    header("Location:joho.php");
     exit;
   } else { ?>
     <div class="alert alert-danger" role="alert">パスワードが一致しません。</div>
