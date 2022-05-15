@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 define( "DB_HOST", "localhost" );
 define( "DB_USER", "admin03" );
 define( "DB_PASS", "Admin!_03" );
@@ -8,6 +11,13 @@ define( "DB_NAME", "check_anpi" );
 //データベースに接続
 $instance = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
  
+//ログイン状態の場合ログイン後のページにリダイレクト
+if (isset($_SESSION["login"])) {
+  session_regenerate_id(TRUE);
+  header("Location: aa.php");
+  exit();
+}
+
 if($instance->connect_error){
   echo "Failed to connect to MySQL: ";
   exit;
@@ -40,19 +50,24 @@ if(isset($_POST['LOGIN'])) {
   while ($row = $result->fetch_assoc()) {
     $db_hashed_pwd = $row['password'];
     $id = $row['id'];
+    $name = $row['name'];
   }
-
-  // データベースの切断
-  $result->close();
 
   // ハッシュ化されたパスワードがマッチするかどうかを確認
   if (password_verify($password, $db_hashed_pwd)) {
+    //　一致したとき 
     $_SESSION['id'] = $id;
-    header("Location:joho.php");
+    $_SESSION['name'] = $name;
+    $_SESSION["login"] = $_POST['id']; //セッションにログイン情報を登録
+    header("Location:login.php");
     exit;
   } else { ?>
     <div class="alert alert-danger" role="alert">パスワードが一致しません。</div>
   <?php }
+
+  // データベースの切断
+  $result->close();
+
 }
 ?>
 
