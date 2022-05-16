@@ -45,7 +45,7 @@ if(isset($_SESSION["joho"])){
   if(isset($_SESSION["errmessage"])){
   $errmessage = $_SESSION["errmessage"];
   }
-  $_SESSION = [];
+
 
 
 
@@ -104,6 +104,8 @@ if(isset($_SESSION["joho"])){
         </form>
       </div>
 
+
+
  
                         
 
@@ -120,9 +122,10 @@ if(isset($_SESSION["joho"])){
                           </div> -->
                           <div class="card__overviewtext">
                           <tr class="tracking-wider border-b border-gray-200 hover:bg-gray-100 ">
-                            <td><?= $anpi["id"] ?></td>
+                            <td><?= $anpi["name"]?></td>
                             <td><?= $anpi["status"] ?></td>
                             <td><?= $anpi["text"] ?></td>
+                            <td class="time"><?= $anpi["time"] ?></td>
                           </tr>
                           </div>
                         </div>
@@ -164,6 +167,15 @@ if(isset($_SESSION["joho"])){
       <div class="button-panel">
               <a class ="link" id="kishou" href="https://www.jma.go.jp/jma/index.html">気象庁</a>
             </div>
+
+                     
+      <form action="logout.php" method="post">
+            <div class="button-panel">
+              <input type="submit" class="logout" value="🙋"></input>
+            </div>
+          </form>
+
+   
 
 
 </body>
