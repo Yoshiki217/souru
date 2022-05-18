@@ -22,7 +22,6 @@ $instance->begin_transaction();
 
 // ボタンが押されたとき
 if(isset($_POST['create'])) {
-
   $id = $_POST['id'];
   $password = $_POST['password'];
   $password = password_hash($password, PASSWORD_DEFAULT);
@@ -37,36 +36,34 @@ $sql = "SELECT * FROM employee WHERE id='$id'";//
   while ($row = $result->fetch_assoc()) {
     $name = $row['name'];
   }
-  //パスワードがすでに格納されているかのチェック
-  $sql1 = "SELECT count(*) FROM employee where id='$id' AND password is null";
-  if (!$result = $instance->query($sql1)) {
-    print('クエリーが失敗しました。' . $instance->error);
-    $instance->rollback();
-    $instance->close();
-    exit();
-  }
-  //NULLの時
-  if($sql1){
-    // パスワード挿入
-    $sql2 = "UPDATE employee SET password = '$password' WHERE id = '$id'";
-    if (!$result = $instance->query($sql2)) {
-      print('クエリーが失敗しました。' . $instance->error);
-      $instance->rollback();
-      $instance->close();
-      exit();
-    }
-    //anpiテーブルにIDとname挿入
-    $sql3 = "INSERT INTO anpi(id,name,status)VALUE($id,'$name','無回答')";
-    if (!$result = $instance->query($sql3)) {
-      print('クエリーが失敗しました。' . $instance->error);
-      $instance->rollback();
-      $instance->close();
-      exit();
-    }
-    header("Location:index.php");
-  }else{
-    print('アカウントが存在します。');
-  }
+   //パスワードがすでに格納されているかのチェック
+   $sql1 = "SELECT * FROM employee where id='$id'";
+   $res = mysqli_query($instance, $sql1);
+   while($row = mysqli_fetch_assoc($res)) {
+     $pass=$row['password'];
+   }
+   //NULLの時
+   if(!$pass){
+      // パスワード挿入
+      $sql2 = "UPDATE employee SET password = '$password' WHERE id = '$id'";
+      if (!$result = $instance->query($sql2)) {
+        print('クエリーが失敗しました。' . $instance->error);
+        $instance->rollback();
+        $instance->close();
+        exit();
+      }
+      //anpiテーブルにIDとname挿入
+      $sql3 = "INSERT INTO anpi(id,name,status)VALUE($id,'$name','無回答')";
+      if (!$result = $instance->query($sql3)) {
+        print('クエリーが失敗しました。' . $instance->error);
+        $instance->rollback();
+        $instance->close();
+        exit();
+      }
+      header("Location:index.php");
+   }else{
+     print('アカウントが存在します。');
+   }
 
 $instance->commit();
 /* 接続を閉じます */
