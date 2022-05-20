@@ -92,7 +92,7 @@ $instance->close();
 <div class="form-wrapper">
   <h1>新規作成</h1>
   <?php if( !empty( $message ) ): ?>
-    <p><?php echo $message; ?></p>
+    <p class="error"><?php echo $message; ?></p>
     <?php endif; ?>
   <form action="#" method="post">
     <div class="form-item">
@@ -144,4 +144,3 @@ $instance->close();
 </body>
 
 </html>
-
