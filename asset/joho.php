@@ -6,10 +6,7 @@ define( "DB_PASS", "Admin!_03" );
 define( "DB_NAME", "check_anpi" );
 define( "DB_CHARSET", "utf8mb4" );
 
-if (!isset($_SESSION["login"])) {
-  header("Location: index.php");
-  exit();
-}
+
 $result = [
   "status" => false,
   "message" => "現在システムを利用することができません",

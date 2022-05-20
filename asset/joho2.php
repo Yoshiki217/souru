@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 define( "DB_HOST", "localhost" );
 define( "DB_USER", "admin03" );
 define( "DB_PASS", "Admin!_03" );
@@ -22,8 +25,11 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
     exit("不正データが検出されました。");
   }
 
-  session_start();
+  
   $_SESSION["joho"] = $postdata;
+  $id = $_SESSION["id"];
+  var_dump($id);
+
 
   if(in_array(false,$postdata,true)){
     if($postdata["text"] == ""){
@@ -33,27 +39,23 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
       }
     }
 
-    $id = $_SESSION["id"];
-    $name = $_SESSION["name"];
+
 
   if( ! $instance -> connect_error ) {
-    echo "assasaaa";
+
 
     $instance -> set_charset (DB_CHARSET);
 
-    $sql = "UPDATE anpi SET name = $name, datetime = now() ,status = ? text = ?  WHERE id = '$id'";
+    $sql = "UPDATE anpi SET time = now(), status = ?,text = ? WHERE id = $id";
 
         if( $stmt = $instance -> prepare( $sql )){
-            echo("wa");
-
-           
             $stmt -> bind_param( "ss",$postdata["status"], $postdata["text"]);
             $stmt -> execute();
 
             if($stmt -> affected_rows==1){
                $instance ->commit();
+               $_SESSION["errmessage"] = "";
                header("Location:joho.php");
-                echo("せいこう");
 
             }else{
                 $instance ->rollback();
