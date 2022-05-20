@@ -134,8 +134,6 @@ $instance->close();
   </form>
   <div class="form-footer">
     <p><a href="index.php">ログインする</a></p>
-    <p>ログインする</p>
-
   </div>
   </div>
   </div>
