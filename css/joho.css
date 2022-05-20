@@ -41,7 +41,7 @@ body{
 .nakami nav {
   list-style: none;
   overflow: hidden;
-  margin-right: 2em;
+  margin-right: 1em;
 }
  
 .nakami nav li {
@@ -59,25 +59,23 @@ body{
 .nakami .link{
   display       : inline-block;
   text-decoration:none;
-  border-radius : 5%;          /* 角丸       */
-  font-size     : 12pt;        /* 文字サイズ */
+  font-size     : 10pt;        /* 文字サイズ */
   text-align    : center;      /* 文字位置   */
   cursor        : pointer;     /* カーソル   */
-  padding       : 12px 34px;   /* 余白       */
+  padding       : 10px 30px;   /* 余白       */
   background    : #84aa77;     /* 背景色     */
   color         : #ffffff;     /* 文字色     */
   line-height   : 1em;         /* 1行の高さ  */
-  transition    : .3s;         /* なめらか変化 */
-  box-shadow    : 2px 2px 1px #48633c;  /* 影の設定 */
   margin-right: 50px;
   
 }
 .nakami .link:hover {
-  box-shadow    : none;        /* カーソル時の影消去 */
+  background: #48633c;
 }
 .nakami form{
   margin:0px 0px 0px auto;
 }
+
 
 
 /* 真ん中 */
@@ -95,8 +93,8 @@ body{
 
 .card__textbox{
   padding:20px; 
-
 }
+
 /* 右 */
 #split-right{
   position: fixed;
@@ -109,7 +107,6 @@ body{
 .button-panel .link{
   display       : inline-block;
   text-decoration:none;
-  border-radius : 5%;          /* 角丸       */
   font-size     : 5pt;        /* 文字サイズ */
   text-align    : center;      /* 文字位置   */
   cursor        : pointer;     /* カーソル   */
@@ -117,13 +114,12 @@ body{
   background    : #84aa77;     /* 背景色     */
   color         : #ffffff;     /* 文字色     */
   line-height   : 1em;         /* 1行の高さ  */
-  transition    : .3s;         /* なめらか変化 */
-  box-shadow    : 2px 2px 1px #48633c;  /* 影の設定 */
   margin-right: 50px;
 }
 .button-panel .link:hover {
-  box-shadow    : none;        /* カーソル時の影消去 */
+  background: #48633c;
 }
+
 
 
 
@@ -189,9 +185,32 @@ body{
   text-transform: uppercase;
   transition: background 0.3s ease-in-out;
   width: 100%;
+  
 }
 
 .button:hover {
+  background: #48633c;
+}
+
+
+/*ログアウト*/
+.button-panel .logout{
+  float: right;
+  background: #84aa77;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  height: 40px;
+  padding-left:0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20pt;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out;
+  width: 10%;
+}
+.button-panel .logout:hover {
   background: #48633c;
 }
 
