@@ -7,6 +7,8 @@ define( "DB_NAME", "check_anpi" );
 
 //データベースに接続
 $instance = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
+
+$name='';
  
 if($instance->connect_error){
   echo "Failed to connect to MySQL: ";
@@ -26,51 +28,56 @@ if(isset($_POST['create'])) {
   $password = $_POST['password'];
   $password = password_hash($password, PASSWORD_DEFAULT);
 //name取り出すための処理
-$sql = "SELECT * FROM employee WHERE id='$id'";//
+
+$sql = "SELECT * FROM employee WHERE id='$id'";
   if (!$result = $instance->query($sql)) {
     print('クエリーが失敗しました。' . $instance->error);
     $instance->close();
     exit();
   }
   // name取り出し
+  $res = mysqli_query($instance, $sql);
   while ($row = $result->fetch_assoc()) {
     $name = $row['name'];
   }
-   //パスワードがすでに格納されているかのチェック
+  // pass 
    $sql1 = "SELECT * FROM employee where id='$id'";
    $res = mysqli_query($instance, $sql1);
-   while($row = mysqli_fetch_assoc($res)) {
-     $pass=$row['password'];
+   while($row = mysqli_fetch_assoc($res)){
+    $pass=$row['password'];
    }
-   //NULLの時
-   if(!$pass){
-      // パスワード挿入
-      $sql2 = "UPDATE employee SET password = '$password' WHERE id = '$id'";
-      if (!$result = $instance->query($sql2)) {
-        print('クエリーが失敗しました。' . $instance->error);
-        $instance->rollback();
-        $instance->close();
-        exit();
-      }
-      //anpiテーブルにIDとname挿入
-      $sql3 = "INSERT INTO anpi(id,name,status)VALUE($id,'$name','無回答')";
-      if (!$result = $instance->query($sql3)) {
-        print('クエリーが失敗しました。' . $instance->error);
-        $instance->rollback();
-        $instance->close();
-        exit();
-      }
-      header("Location:index.php");
+   //nameがNULLの時
+   if(!$name){
+    $message="IDが違います。";
    }else{
-     print('アカウントが存在します。');
-   }
+      //passがNULLの時
+      if(!$pass){
+          // パスワード挿入
+          $sql2 = "UPDATE employee SET password = '$password' WHERE id = '$id'";
+          if (!$result = $instance->query($sql2)) {
+            print('クエリーが失敗しました。' . $instance->error);
+            $instance->rollback();
+            $instance->close();
+            exit();
+          }
+          //anpiテーブルにIDとname挿入
+          $sql3 = "INSERT INTO anpi(id,name,status)VALUE($id,'$name','無回答')";
+          if (!$result = $instance->query($sql3)) {
+            print('クエリーが失敗しました。' . $instance->error);
+            $instance->rollback();
+            $instance->close();
+            exit();
+          }
+          header("Location:index.php");
+      }else{
+        $message="アカウントが存在します。";
+      }
+  }
 
 $instance->commit();
 /* 接続を閉じます */
 $instance->close();
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -127,7 +134,10 @@ $instance->close();
   </form>
   <div class="form-footer">
     <p><a href="index.php">ログインする</a></p>
-    <!--<p><a href="#">パスワードをお忘れですか？</a></p>-->
+    <p>ログインする</p>
+
+  </div>
+  </div>
   </div>
 </div>
 </body>
