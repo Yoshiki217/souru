@@ -40,7 +40,6 @@ if(isset($_POST['LOGIN'])) {
   $query = "SELECT * FROM employee WHERE id='$id'";
   $result = $instance->query($query);
   if (!$result) {
-    print('クエリーが失敗しました。' . $instance->error);
     $instance->close();
     exit();
   }
@@ -48,25 +47,22 @@ if(isset($_POST['LOGIN'])) {
   // パスワード(暗号化済み）とユーザーIDの取り出し
   while ($row = $result->fetch_assoc()) {
     $db_hashed_pwd = $row['password'];
-    $id = $row['id'];
+    $id1 = $row['id'];
     $name = $row['name'];
   }
-
   // ハッシュ化されたパスワードがマッチするかどうかを確認
   if (password_verify($password, $db_hashed_pwd)) {
-    //　一致したとき 
+   //　一致したとき 
     $_SESSION['id'] = $id;
     $_SESSION['name'] = $name;
     $_SESSION["login"] = $_POST['id']; //セッションにログイン情報を登録
     header("Location:joho.php");
     exit;
-  } else { ?>
-    <div class="alert alert-danger" role="alert">パスワードが一致しません。</div>
-  <?php }
-
+  } else {
+    $message="パスワードが一致しません。";
+  }
   // データベースの切断
   $result->close();
-
 }
 ?>
 
@@ -99,6 +95,9 @@ if(isset($_POST['LOGIN'])) {
 
 <div class="form-wrapper">
   <h1>安否確認</h1>
+  <?php if( !empty( $message ) ): ?>
+    <p><?php echo $message; ?></p>
+    <?php endif; ?>
   <form action="#" method="post">
     <div class="form-item">
       <label for="ids"></label>
