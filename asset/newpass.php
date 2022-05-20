@@ -22,57 +22,35 @@ if (!$instance->select_db("check_anpi")) {
 $instance->begin_transaction();
 
 // ログインボタンがクリックされたときに下記を実行
+
 if(isset($_POST['CHANGE'])) {
   $id = $_POST['id'];
   $Newpassword = $_POST['Newpassword'];
   $Newpassword = password_hash($Newpassword, PASSWORD_DEFAULT);
-  echo "aaaa";
 
-  $sql = "UPDATE employee SET password = '$Newpassword' WHERE id = '$id'";
-
-  //SQLを実行
-  if (!$res = $instance->query($sql)) {
-    echo $sql;
-    $instance->rollback();
-    //データベースから切断
-    $instance->close();
-    exit;
+  $sql = "SELECT * FROM anpi WHERE id = '$id'";
+  $res = mysqli_query($instance, $sql);
+  while($row = mysqli_fetch_assoc($res)){
+    $name=$row['name'];
   }
-  header("Location:index.php");
+  if(!empty($name)){
+    $sql1 = "UPDATE employee SET password = '$Newpassword' WHERE id = '$id'";
+    //SQLを実行
+    if (!$res = $instance->query($sql1)) {
+      $instance->rollback();
+      //データベースから切断
+      $instance->close();
+      exit;
+      header("Location:index.php");
+    }
+  }else{
+    $message="アカウントが存在しません";
+  }
 
 $instance->commit();
 /* 接続を閉じます */
 $instance->close();
 }
-
-
-
-//   // クエリの実行
-//   $query = "SELECT * FROM employee WHERE id='$id'";
-//   $result = $instance->query($query);
-//   if (!$result) {
-//     print('クエリーが失敗しました。' . $instance->error);
-//     $instance->close();
-//     exit();
-//   }
-
-//   // パスワード(暗号化済み）とユーザーIDの取り出し
-//   while ($row = $result->fetch_assoc()) {
-//     $db_hashed_pwd = $row['password'];
-//     $id = $row['id'];
-//   }
-
-  // データベースの切断
-
-
-  // ハッシュ化されたパスワードがマッチするかどうかを確認
-//   if (password_verify($password, $db_hashed_pwd)) {
-//     $_SESSION['id'] = $id;
-//     header("Location:joho.php");
-//     exit;
-//   } else { 
-
-
 ?>
 
 
@@ -85,26 +63,11 @@ $instance->close();
 </head>
 <body>
 
-<!-- <div class="login">
-    <div class="login-triangle"></div>
-    
-    <h2 class="login-header">Log in</h2>
-  
-    <form action="#" class="login-container" method="post">
-      <p><input type="id" placeholder="ID"></p>
-      <p><input type="name" placeholder="Name"></p>
-      <p><input type="password" placeholder="Password"></p>
-      <p><input type="submit" value="Log in"></p>
-    </form>
-  </div>
-
-
-</body>
-</html>  -->
-
-
 <div class="form-wrapper">
   <h1>パスワード再設定</h1>
+  <?php if( !empty( $message ) ): ?>
+    <p><?php echo $message; ?></p>
+    <?php endif; ?>
   <form action="#" method="post">
     <div class="form-item">
       <label for="ids"></label>
